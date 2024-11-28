@@ -1,7 +1,30 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+  "compilerOptions": {
+    "allowJs": true,              // Allow JavaScript files to be included
+    "jsx": "react-jsx",           // Use the new JSX transform from React 17+
+    "moduleResolution": "bundler",   // Ensures module resolution works well with Node.js modules
+    "esModuleInterop": true,      // Allow default imports from CommonJS modules
+    "skipLibCheck": true,         // Skip type checking for declaration files for faster builds
+    "strict": true,               // Enable strict mode for better type-checking (optional but recommended)
+    "module": "ESNext",           // Ensures ES Modules compatibility
+    "target": "ESNext",           // Set ECMAScript version to the latest
+    "outDir": "./dist",           // Specifies the output directory for compiled files
+    "resolveJsonModule": true,     // Allows importing JSON files as modules
+    "allowImportingTsExtensions": true,
+    "noEmit": true 
+  },
+  "include": [
+    "src/**/*",                    // Includes all files under the src directory
+    "src/components/AiSummaryBot.tsx", // Explicitly include AiSummaryBot.tsx
+    "src/components/Controls.tsx",    // Explicitly include Controls.tsx
+    "src/components/Header.tsx",     // Explicitly include Header.tsx
+    "src/components/Sidebar.tsx",    // Explicitly include Sidebar.tsx
+    "src/components/Viewer3D.tsx",   // Explicitly include Viewer3D.tsx
+    "src/components/node.js",       // Include node.js (if necessary for your project)
+    "src/components/server.js",     // Include server.js (if needed)
+    "src/components/apikey.env"     // Include apikey.env (if necessary for your project)
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
