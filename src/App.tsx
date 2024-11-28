@@ -24,12 +24,12 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Fetch regular data
-    axios.get("http://<YOUR_PI_IP>:5000/data").then((response) => {
+    axios.get("http://172.20.10.7:5000/data").then((response) => {
       setData(response.data);
     });
 
     // Fetch spikes
-    axios.get("http://<YOUR_PI_IP>:5000/spikes?threshold=2").then((response) => {
+    axios.get("http://172.20.10.7:5000/spikes?threshold=2").then((response) => {
       setSpikes(response.data);
     });
   }, []);
