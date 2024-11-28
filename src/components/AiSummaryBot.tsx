@@ -33,7 +33,6 @@ export function AiSummaryBot() {
         <p>Processing...</p>
       ) : (
         <div className="mt-4">
-          <h3 className="font-semibold text-gray-900">Generated Summary:</h3>
           <p className="text-gray-700">{summary}</p>
         </div>
       )}
