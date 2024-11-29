@@ -13,13 +13,6 @@ export function Sidebar() {
         {/* AI Summary Bot Component */}
         <AiSummaryBot />
       </div>
-
-      {/* Temperature Monitoring Header */}
-      <div className="space-y-4 mt-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-lg font-semibold text-gray-900">Temperature Monitoring</h1>
-        </div>
-      </div>
     </div>
   );
 }

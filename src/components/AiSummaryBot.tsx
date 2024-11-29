@@ -10,10 +10,22 @@ export function AiSummaryBot() {
   const [summary, setSummary] = useState<string>('');
 
   useEffect(() => {
-    const fetchSummary = async () => {
+    const handleVideoProcessing = async () => {
       setLoading(true);
+
+      // Assume video.mp4 is in the public folder of your React app
+      const videoPath = '/video.mp4';
+
+      const formData = new FormData();
+      formData.append('video', videoPath);
+
       try {
-        const response = await axios.post<SummaryResponse>('http://localhost:5000/generate-summary');
+        const response = await axios.post<SummaryResponse>('http://localhost:5000/generate-summary', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
         setSummary(response.data.summary);
       } catch (error) {
         console.error('Error fetching summary:', error);
@@ -22,8 +34,8 @@ export function AiSummaryBot() {
       }
     };
 
-    fetchSummary();
-  }, []); // Empty array to call only once when component mounts
+    handleVideoProcessing();
+  }, []); // Empty dependency array, runs only once when component mounts
 
   return (
     <div className="space-y-4">

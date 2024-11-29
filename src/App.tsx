@@ -1,38 +1,35 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
-import { Header } from './components/Header';
-import { Viewer3D } from './components/Viewer3D';
-import { Controls } from './components/Controls';
-import { Sidebar } from './components/Sidebar';
+import React, { useState } from "react";
+import { Header } from "./components/Header";
+import { Viewer3D } from "./components/Viewer3D";
+import { Controls } from "./components/Controls";
+import { Sidebar } from "./components/Sidebar";
+import ChartComponent from "./components/chart";
+import Upload from "./components/fileupload";
 
-// Define the data types
-interface DataPoint {
-  Timestamp: string;
-  Temperature: number;
-  Humidity: number;
-}
+function App() {
+  const [isImageVisible, setIsImageVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Loading state to show "generating" message
 
-interface Spike {
-  timestamp: string;
-  temperature: number;
-}
+  const toggleImageVisibility = () => {
+    // Start the simulated process of generating the graph
+    setIsLoading(true);
+    setIsImageVisible(false); // Hide the image when the process starts
+    setTimeout(() => {
+      // Simulate a delay of 3 seconds (e.g., data collection, processing)
+      setIsImageVisible(true); // Show the image after the process
+      setIsLoading(false); // Hide loading state after the image is generated
+    }, 3000); // Delay in milliseconds (3 seconds)
+  };
 
-const App: React.FC = () => {
-  const [data, setData] = useState<DataPoint[]>([]);
-  const [spikes, setSpikes] = useState<Spike[]>([]);
-
-  useEffect(() => {
-    // Fetch regular data
-    axios.get("http://172.20.10.7:5000/data").then((response) => {
-      setData(response.data);
-    });
-
-    // Fetch spikes
-    axios.get("http://172.20.10.7:5000/spikes?threshold=2").then((response) => {
-      setSpikes(response.data);
-    });
-  }, []);
+  // Simulated temperature data collection and Excel export (dummy code)
+  const recordTemperatureData = () => {
+    console.log("Recording temperature data...");
+    setTimeout(() => {
+      console.log("Data recorded to Excel...");
+      // Simulate generating a graph after data collection
+      console.log("Generating graph...");
+    }, 2000); // Delay for data recording and graph generation
+  };
 
   return (
     <div className="w-screen h-screen bg-darkgray-100 relative overflow-hidden">
@@ -41,41 +38,36 @@ const App: React.FC = () => {
 
       <main className="w-full h-full pt-16 flex">
         {/* 3D Viewer */}
-        <Viewer3D />
-
-        {/* Controls for your app */}
+        {/* <Viewer3D /> */}
+        {/* <Upload/> */}
+        {/* Controls */}
         <Controls />
 
-        {/* Sidebar for additional info */}
+        {/* Sidebar */}
         <Sidebar />
+
+        {/* Button and Graph at bottom-right */}
+        <div className="absolute bottom-4 right-4">
+          <button
+            onClick={() => {
+              recordTemperatureData();
+              toggleImageVisibility();
+            }}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+          >
+            {isLoading ? "Generating..." : "Generate Temperature Graph"}
+          </button>
+
+          {/* Image that can be toggled */}
+          {isImageVisible && (
+            <div className="mt-2">
+             < ChartComponent/>
+            </div>
+          )}
+        </div>
       </main>
-
-      <div style={{ padding: "20px" }}>
-        <h1>Temperature Data</h1>
-        <LineChart
-          width={800}
-          height={400}
-          data={data}
-          margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-        >
-          <Line type="monotone" dataKey="Temperature" stroke="#8884d8" />
-          <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="Timestamp" />
-          <YAxis />
-          <Tooltip />
-        </LineChart>
-
-        <h2>Temperature Spikes</h2>
-        <ul>
-          {spikes.map((spike, index) => (
-            <li key={index}>
-              {spike.timestamp} - {spike.temperature}°C
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
-};
+}
 
 export default App;
