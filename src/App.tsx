@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { Header } from "./components/Header";
 import { Viewer3D } from "./components/Viewer3D";
@@ -5,6 +6,17 @@ import { Controls } from "./components/Controls";
 import { Sidebar } from "./components/Sidebar";
 import ChartComponent from "./components/chart";
 import Upload from "./components/fileupload";
+=======
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import { Controls } from './components/Controls';
+import { Header } from './components/Header';
+import { Sidebar } from './components/Sidebar';
+import { Viewer3D } from './components/Viewer3D';
+import SensorGraph from "./components/sensorgraph";
+
+>>>>>>> fc6a525 (add sensorgraph)
 
 function App() {
   const [isImageVisible, setIsImageVisible] = useState(false);
@@ -21,6 +33,7 @@ function App() {
     }, 3000); // Delay in milliseconds (3 seconds)
   };
 
+<<<<<<< HEAD
   // Simulated temperature data collection and Excel export (dummy code)
   const recordTemperatureData = () => {
     console.log("Recording temperature data...");
@@ -30,6 +43,32 @@ function App() {
       console.log("Generating graph...");
     }, 2000); // Delay for data recording and graph generation
   };
+=======
+const App: React.FC = () => {
+  const [data, setData] = useState<DataPoint[]>([]);
+  const [spikes, setSpikes] = useState<Spike[]>([]);
+
+  const App: React.FC = () => {
+    return (
+      <div>
+        <h1 style={{ textAlign: "center", marginTop: "20px" }}>DHT11 Sensor Visualization</h1>
+        <SensorGraph />
+      </div>
+    );
+  };
+
+  useEffect(() => {
+    // Fetch regular data
+    axios.get("http://172.20.10.7:5000/data").then((response) => {
+      setData(response.data);
+    });
+
+    // Fetch spikes
+    axios.get("http://172.20.10.7:5000/spikes?threshold=2").then((response) => {
+      setSpikes(response.data);
+    });
+  }, []);
+>>>>>>> fc6a525 (add sensorgraph)
 
   return (
     <div className="w-screen h-screen bg-darkgray-100 relative overflow-hidden">
@@ -69,5 +108,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
